@@ -1,14 +1,52 @@
-image: "python 3.7"
+name: Pytest
 
-before_script:
-    - pip install -r requirements.txt
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
-stages:
-    - Test
+env:
+  IMAGE_NAME: covid-api
+  
+jobs:
+    build:
+    
+      runs-on: ubuntu-latest
+      
+      steps:
+      - uses: actions/checkout@v2
+      
+      - name: builds docker image
+      run: docker build . --file Dockerfile --tag $IMAGE_NAME
+      
+      - name: Log into registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+        
+      - name: Set PYTHONPATH
+        run: PYTHONPATH="$PYTHONPATH:."
+        
+      - name: Import Path
+        run: python -c "import sys;print(sys.path)"
+        
+      - name: Run Tests
+        run: pytest
 
-pytest:
-    stage: Test
-    script:
-    - export PYTHONPATH="$PYTHONPATH:."
-    - python -c "import sys;print(sys.path)"
-    - pytest
+
+
+
+
+#image: "python 3.7"
+#
+#before_script:
+#    - pip install -r requirements.txt
+#
+#stages:
+#    - Test
+#
+#pytest:
+#    stage: Test
+#    script:
+#    - export PYTHONPATH="$PYTHONPATH:."
+#    - python -c "import sys;print(sys.path)"
+#    - pytest
