@@ -30,7 +30,7 @@ jobs:
         run: python -c "import sys;print(sys.path)"
         
       - name: Run Tests
-        run: pytest
+        run: python -m pytest
 
 
 
