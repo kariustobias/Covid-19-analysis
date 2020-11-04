@@ -24,13 +24,16 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
         
       - name: Set PYTHONPATH
-        run: PYTHONPATH="$PYTHONPATH:."
-        
-      - name: Import Path
-        run: python -c "import sys;print(sys.path)"
+        run: |
+          pwd
+          ls
+          echo $PYTHONPATH
+          python -c "import sys; print(sys.path)"
+          export PYTHONPATH="$PYTHONPATH:/home/runner/work/Covid-19-analysis/Covid-19-analysis"
+          echo $PYTHONPATH
         
       - name: Run Tests
-        run: python -m pytest
+        run: pytest
 
 
 
