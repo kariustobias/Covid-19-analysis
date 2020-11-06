@@ -28,6 +28,8 @@ jobs:
           pwd
           ls
           echo $PYTHONPATH
+          python -m pip install --upgrade pip
+          python -m pip install pytest
           python -c "import sys; print(sys.path)"
           export PYTHONPATH="$PYTHONPATH:/home/runner/work/Covid-19-analysis/Covid-19-analysis"
           echo $PYTHONPATH
