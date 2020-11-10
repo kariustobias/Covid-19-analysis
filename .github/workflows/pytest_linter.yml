@@ -24,29 +24,13 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
         
       - name: Set PYTHONPATH
-        run: PYTHONPATH="$PYTHONPATH:."
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest
+          export PYTHONPATH="$PYTHONPATH:/home/runner/work/Covid-19-analysis/Covid-19-analysis"
         
       - name: Import Path
         run: python -c "import sys;print(sys.path)"
         
       - name: Run Tests
         run: python -m pytest
-
-
-
-
-
-#image: "python 3.7"
-#
-#before_script:
-#    - pip install -r requirements.txt
-#
-#stages:
-#    - Test
-#
-#pytest:
-#    stage: Test
-#    script:
-#    - export PYTHONPATH="$PYTHONPATH:."
-#    - python -c "import sys;print(sys.path)"
-#    - pytest
