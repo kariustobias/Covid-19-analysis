@@ -27,6 +27,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install pytest
+          python -m pip install fastapi
           export PYTHONPATH="$PYTHONPATH:/home/runner/work/Covid-19-analysis/Covid-19-analysis"
         
       - name: Import Path
